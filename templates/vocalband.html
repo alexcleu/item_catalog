@@ -1,0 +1,14 @@
+<html>
+<body>
+  <h1> Vocal Band </h1>
+  <a href="{{url_for('newVocalband')}}"> Create New Vocalband </a>
+  {% for vocalband in vocalbands %}
+  <h3><a href="{{url_for('vocalbandmusic', vocalband_id = vocalband.id)}}"><strong>{{vocalband.name}}</strong></a></h3>
+
+  <p><a href="{{url_for('editVocalband',vocalband_id = vocalband.id)}}"> Edit Vocalband </a> </p>
+  <p><a href="{{url_for('deleteVocalband', vocalband_id = vocalband.id)}}"> Delete Vocalband </a></p>
+
+  {% endfor %}
+
+</body>
+</html>

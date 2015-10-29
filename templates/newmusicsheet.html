@@ -1,0 +1,24 @@
+<html>
+<body>
+	<h1> New Music Sheet </h1>
+	
+	<form action="{{url_for('createMusicsheet', vocalband_id=vocalband_id)}}" method = 'post'>
+		
+	    <p> Name: </p>
+		  <input type='text' size = '30' name = 'name'>
+		<p> Needs Beatbox: </p>
+		  <input type='radio' name='beatbox' value = 1 checked> Yes
+		  <br>
+		  <input type='radio' name='beatbox'value= 0 checked> No
+		  <br>
+		<p> Voice Parts </p>
+	      <input type='radio' name='voicepart' value ='TTBB' checked> TTBB
+	      <br>
+	      <input type='radio' name='voicepart'value='SATB' checked> SATB
+	      <br>
+		
+		  
+		  <input type = 'submit' value='Create'>
+    </form>
+</body>
+</html>

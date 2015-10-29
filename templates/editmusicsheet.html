@@ -1,0 +1,13 @@
+<html>
+<head>
+	<h1> Edit Music Sheet Name </h1>
+<form action = "{{url_for('editMusicsheet', vocalband_id = vocalband_id, musicsheet_id = musicsheet_id)}}" method = 'POST'>
+	<p> Name: </p>
+	<input type = 'text' size = '30' name ='name' placeholder='{{musicsheet.name}}'>
+	
+	<input type ='submit' value='Edit'>
+	
+	
+	<a href='{{url_for('vocalbandmusic', vocalband_id = vocalband_id)}}'> Cancel </a>
+</body>
+</html>

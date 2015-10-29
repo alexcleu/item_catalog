@@ -1,0 +1,20 @@
+<html>
+<body>
+	<h1> {{vocalband.name}}</h1>
+	<a href="{{url_for('createMusicsheet', vocalband_id = vocalband.id)}}"> Create new Music </a>
+	{% for i in musics %}
+<div class = 'music'>
+	<p> {{i.name}}</p>
+	<p> {{i.needs_beatbox}}</p>
+	<p> {{i.vocal_part}} </p>
+	
+	<p><a href="{{url_for('editMusicsheet', vocalband_id=vocalband.id, musicsheet_id = i.id)}}"> Edit </a></p>
+	
+	<p><a href="{{url_for('deleteMusicsheet', vocalband_id = vocalband.id, musicsheet_id = i.id)}}"> Delete </a></p>
+</div>
+
+    {% endfor %}
+	
+	<p><a href="{{url_for('showVocalband')}}"> Back </a> </p>
+</body>
+</html>
