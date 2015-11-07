@@ -195,6 +195,7 @@ def newVocalband():
     
 
 @app.route('/vocalband/<int:vocalband_id>/edit', methods=['GET', 'POST'])
+@login_required    
 def editVocalband(vocalband_id):
     editVocalband = session.query(Vocalband).filter_by(id=vocalband_id).one()
     if request.method == 'POST':
@@ -209,6 +210,7 @@ def editVocalband(vocalband_id):
     return "this is the edit vocal band page for number %s!" % vocalband_id
 
 @app.route('/vocalband/<int:vocalband_id>/delete', methods=['GET', 'POST'])
+@login_required    
 def deleteVocalband(vocalband_id):
     deletedVocalband = session.query(Vocalband).filter_by(id=vocalband_id).one()
     if request.method == 'POST':
@@ -227,6 +229,7 @@ def vocalbandmusic(vocalband_id):
     return render_template('musicsheet.html', vocalband=vocalband, musics=musics)
     
 @app.route('/vocalband/<int:vocalband_id>/new', methods=['GET', 'POST'])
+@login_required
 def createMusicsheet(vocalband_id):
     if request.method == 'POST':
         newMusic = Musicsheet(name=request.form['name'],
@@ -243,6 +246,7 @@ def createMusicsheet(vocalband_id):
 
 @app.route('/vocalband/<int:vocalband_id>/<int:musicsheet_id>/edit',
             methods=['GET', 'POST'])
+@login_required    
 def editMusicsheet(vocalband_id, musicsheet_id):
     editMusic = session.query(Musicsheet).filter_by(id=musicsheet_id).one()
     if request.method == 'POST':
@@ -260,6 +264,7 @@ def editMusicsheet(vocalband_id, musicsheet_id):
 
 @app.route('/vocalband/<int:vocalband_id>/<int:musicsheet_id>/delete',
             methods=['GET', 'POST'])
+@login_required    
 def deleteMusicsheet(vocalband_id, musicsheet_id):
     deletedMusic = session.query(Musicsheet).filter_by(id=musicsheet_id).one()
     if request.method == 'POST':
