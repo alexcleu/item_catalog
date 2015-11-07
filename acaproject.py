@@ -29,6 +29,9 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 def login_required(f):
+    """ Requires a login before post functions
+
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if login_session.get('credentials') is None:
@@ -39,6 +42,8 @@ def login_required(f):
 
 @app.route('/login')
 def showLogin():
+    """ Shows the login page for the user to login
+    """
     state = ''.join(random.choice(string.ascii_uppercase+string.digits)
                     for x in xrange(32))
     login_session['state'] = state
@@ -47,6 +52,7 @@ def showLogin():
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    """ Connects to the google api to log in"""
     # Validate state token
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -129,6 +135,7 @@ def gconnect():
     
 @app.route('/gdisconnect')
 def gdisconnect():
+    """ Log out of the webpage while deleting the user"""
         # Only disconnect a connected user.
     credentials = login_session.get('credentials')
     if credentials is None:
@@ -162,29 +169,46 @@ def gdisconnect():
 
 @app.route('/vocalbands/JSON/')
 def vocalbandJSON():
+    """ returns the vocalband information via JSON format
+    """
     vocalbands = session.query(Vocalband).all()
     return jsonify(Vocalband=[i.serialize for i in vocalbands])
 
 @app.route('/vocalband/<int:vocalband_id>/musicsheet/JSON/')
 def VocalbandMusicJSON(vocalband_id):
+    """ Returns the vocalband specific music section via JSON
+    
+    args:
+       vocalband_id: id of the vocalband
+    """
     vocalband = session.query(Vocalband).filter_by(id=vocalband_id).one()
     musics = session.query(Musicsheet).filter_by(vocalband_id=vocalband_id)
     return jsonify(Musicsheets = [i.serialize for i in musics])
     
 @app.route('/vocalband/<int:vocalband_id>/musicsheet/<int:musicsheet_id>/JSON/')
 def VocalbandMusicsheetJSON(vocalband_id, musicsheet_id):
+    """ Returns the Vocalbandmusic via JSON format
+    
+    args:
+       vocalband_id: id of the vocalband
+       musicshet_id: id of the music sheet
+    """
     musics = session.query(Musicsheet).filter_by(id=musicsheet_id).one()
     return jsonify(music = musics.serialize)
     
 @app.route('/')
 @app.route('/vocalbands/')
 def showVocalband():
-  vocalbands = session.query(Vocalband).all()
-  return render_template('vocalband.html', vocalbands=vocalbands)
+    """ Shows the vocalband main page
+    """
+    vocalbands = session.query(Vocalband).all()
+    return render_template('vocalband.html', vocalbands=vocalbands)
 
 @app.route('/vocalband/new', methods = ['GET', 'POST'])
 @login_required    
 def newVocalband():
+    """ Creates new vocalband
+    """
     if request.method =='POST':
         newVocalband = Vocalband(name=request.form['name'])
         session.add(newVocalband)
@@ -197,6 +221,11 @@ def newVocalband():
 @app.route('/vocalband/<int:vocalband_id>/edit', methods=['GET', 'POST'])
 @login_required    
 def editVocalband(vocalband_id):
+    """ Edit Vocalband names
+    
+    args:
+       vocalband_id: id of the vocalband
+    """
     editVocalband = session.query(Vocalband).filter_by(id=vocalband_id).one()
     if request.method == 'POST':
         if request.form['name']:
@@ -212,6 +241,11 @@ def editVocalband(vocalband_id):
 @app.route('/vocalband/<int:vocalband_id>/delete', methods=['GET', 'POST'])
 @login_required    
 def deleteVocalband(vocalband_id):
+    """ Delete Vocalband
+    
+    args:
+       vocalband_id: id of the vocalband
+    """
     deletedVocalband = session.query(Vocalband).filter_by(id=vocalband_id).one()
     if request.method == 'POST':
         session.delete(deletedVocalband)
@@ -224,6 +258,11 @@ def deleteVocalband(vocalband_id):
 @app.route('/vocalband/<int:vocalband_id>/')
 @app.route('/vocalband/<int:vocalband_id>/music')
 def vocalbandmusic(vocalband_id):
+    """ shows vocalband music
+    
+    args:
+       vocalband_id: id of the vocalband
+    """
     vocalband = session.query(Vocalband).filter_by(id=vocalband_id).one()
     musics = session.query(Musicsheet).filter_by(vocalband_id=vocalband.id)
     return render_template('musicsheet.html', vocalband=vocalband, musics=musics)
@@ -231,6 +270,11 @@ def vocalbandmusic(vocalband_id):
 @app.route('/vocalband/<int:vocalband_id>/new', methods=['GET', 'POST'])
 @login_required
 def createMusicsheet(vocalband_id):
+    """ Create music under vocalband
+    
+    args:
+       vocalband_id: id of the vocalband
+    """
     if request.method == 'POST':
         newMusic = Musicsheet(name=request.form['name'],
                               vocalband_id = vocalband_id,
@@ -248,6 +292,12 @@ def createMusicsheet(vocalband_id):
             methods=['GET', 'POST'])
 @login_required    
 def editMusicsheet(vocalband_id, musicsheet_id):
+    """ Edit music sheet for vocalband
+    
+    args:
+       vocalband_id: id of the vocalband
+       musicshet_id: id of the music sheet
+    """
     editMusic = session.query(Musicsheet).filter_by(id=musicsheet_id).one()
     if request.method == 'POST':
         if request.form['name']:
@@ -266,6 +316,12 @@ def editMusicsheet(vocalband_id, musicsheet_id):
             methods=['GET', 'POST'])
 @login_required    
 def deleteMusicsheet(vocalband_id, musicsheet_id):
+    """ Delete music for vocalband
+    
+    args:
+       vocalband_id: id of the vocalband
+       musicshet_id: id of the music sheet 
+    """
     deletedMusic = session.query(Musicsheet).filter_by(id=musicsheet_id).one()
     if request.method == 'POST':
         
@@ -277,6 +333,11 @@ def deleteMusicsheet(vocalband_id, musicsheet_id):
             
 
 def getUserID(email):
+    """ Get the user id
+    
+    args:
+       email: email of the user    
+    """
     try:
         user = session.query(User).filter_by(email = email).one()
         return user.id
@@ -286,10 +347,20 @@ def getUserID(email):
 
 
 def getUserInfo(user_id):
+    """ get user information
+    
+    args:
+       user_id: id of the user
+    """
     user = session.query(User).filter_by(id =user_id).one()
     return user
     
 def createUser(login_session):
+    """ create user into the database
+    
+    args:
+       login_session = current user information in the login_session
+    """
     newUser = User(name = login_session['username'], email= login_session['email'],
     picture=login_session['picture'])
     session.add(newUser)
