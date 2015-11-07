@@ -43,7 +43,7 @@ class Musicsheet(Base):
     vocalband_id = Column(Integer, ForeignKey('vocalband.id'))
     needs_beatbox = Column(Boolean, nullable = False)
     vocal_part = Column(String(10), nullable = False)
-    vocalband = relationship(Vocalband)
+    vocalband = relationship(Vocalband, single_parent=True, cascade="all, delete-orphan")
     
     @property
     def serialize(self):
