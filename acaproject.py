@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response
+from functools import wraps
+from flask import g, Flask, render_template, request, redirect, url_for, flash, jsonify, make_response
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Vocalband, Musicsheet, User
@@ -26,6 +27,15 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if login_session.get('credentials') is None:
+            return redirect('/login')
+        return f(*args,**kwargs)
+    return decorated_function
+    
 
 @app.route('/login')
 def showLogin():
@@ -149,6 +159,7 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+
 @app.route('/vocalbands/JSON/')
 def vocalbandJSON():
     vocalbands = session.query(Vocalband).all()
@@ -171,7 +182,8 @@ def showVocalband():
   vocalbands = session.query(Vocalband).all()
   return render_template('vocalband.html', vocalbands=vocalbands)
 
-@app.route('/vocalband/new', methods = ['GET', 'POST'])    
+@app.route('/vocalband/new', methods = ['GET', 'POST'])
+@login_required    
 def newVocalband():
     if request.method =='POST':
         newVocalband = Vocalband(name=request.form['name'])
