@@ -2,12 +2,12 @@
 #####A site that has the information from the songs of the group
 
 ## Requirements
-Flask == 0.9
-SQLAlchemy == 0.8.4
-httplib2 == 0.9.1
-oauth2client == 1.5.1
-json == 2.0.9
-requests == 2.2.1
+######Flask == 0.9
+######SQLAlchemy == 0.8.4
+######httplib2 == 0.9.1
+######oauth2client == 1.5.1
+######json == 2.0.9
+######requests == 2.2.1
 
 * Vagrant SSH into the fullstack environment
   - Go to the directory under vagrant
