@@ -11,7 +11,9 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
-vocalband1 = Vocalband(name="Awaken A Cappella")
+vocalband1 = Vocalband(name="Awaken A Cappella", 
+                       picture = "https://pbs.twimg.com/profile_images/378800000527416861/fe86b831877786cc54910cb083c65b0c_400x400.jpeg"
+                       )
 
 session.add(vocalband1)
 session.commit()
@@ -41,7 +43,9 @@ session.add(Musicsheet4)
 session.commit()
 
 
-vocalband2 = Vocalband(name="Scattertones")
+vocalband2 = Vocalband(name="Scattertones",
+                       picture="https://yt3.ggpht.com/--6gAmZzfPIU/AAAAAAAAAAI/AAAAAAAAAAA/aDVxxQZcThI/s900-c-k-no/photo.jpg"
+                       )
 
 session.add(vocalband2)
 session.commit()
@@ -70,7 +74,9 @@ Musicsheet4 = Musicsheet(name="Stop this Train", vocalband_id = 2,
 session.add(Musicsheet4)
 session.commit()
 
-vocalband3 = Vocalband(name="Bruin Harmony")
+vocalband3 = Vocalband(name="Bruin Harmony",
+                       picture="http://static1.squarespace.com/static/5410fd61e4b07bc380c46d7c/t/541b30e7e4b09a2902b5ec35/1444522695501/?format=1500w"
+                       )
 
 session.add(vocalband3)
 session.commit()

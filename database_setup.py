@@ -25,12 +25,14 @@ class Vocalband(Base):
     
     name = Column(String(30), nullable = False)
     id = Column(Integer, primary_key =True)
+    picture = Column(String(80))
     
     @property
     def serialize(self):
         return {
             'id' :self.id,
             'name' : self.name,
+            'picture' : self.picture
         }
     
     

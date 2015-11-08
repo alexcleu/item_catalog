@@ -1,6 +1,8 @@
 <html>
 <body>
 	<h1> {{vocalband.name}}</h1>
+	<img src="{{vocalband.picture}}" height ='70' width='70'>
+	<br>
 	<a href="{{url_for('createMusicsheet', vocalband_id = vocalband.id)}}"> Create new Music </a>
 	{% for i in musics %}
 <div class = 'music'>

@@ -210,7 +210,8 @@ def newVocalband():
     """ Creates new vocalband
     """
     if request.method =='POST':
-        newVocalband = Vocalband(name=request.form['name'])
+        newVocalband = Vocalband(name=request.form['name'],
+                                 picture=request.form['picture'])
         session.add(newVocalband)
         session.commit()
         return redirect(url_for('showVocalband'))
@@ -230,6 +231,8 @@ def editVocalband(vocalband_id):
     if request.method == 'POST':
         if request.form['name']:
             editVocalband.name = request.form['name']
+        if request.form['picture']:
+            editVocalband.picture =request.form['picture']
         session.add(editVocalband)
         session.commit()
         return redirect(url_for('showVocalband'))

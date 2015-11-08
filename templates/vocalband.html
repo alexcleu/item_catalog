@@ -3,6 +3,7 @@
   <h1> Vocal Band </h1>
   <a href="{{url_for('newVocalband')}}"> Create New Vocalband </a>
   {% for vocalband in vocalbands %}
+  <p><img src="{{vocalband.picture}}" height="70" width="70"></p>
   <h3><a href="{{url_for('vocalbandmusic', vocalband_id = vocalband.id)}}"><strong>{{vocalband.name}}</strong></a></h3>
 
   <p><a href="{{url_for('editVocalband',vocalband_id = vocalband.id)}}"> Edit Vocalband </a> </p>

@@ -3,7 +3,10 @@
   <h1> Edit {{vocalband.name}} </h1>
   <form action="{{url_for('editVocalband', vocalband_id= vocalband.id)}}" method='POST'>
   <p> Name </p>
-    <input type='text' size ='30' name = 'name'>
+    <input type='text' size ='30' name = 'name' placeholder ='{{vocalband.name}}'>
+  <p> Picture </p>
+	<input type='text' size ='30' name ='picture' placeholder ='{{vocalband.picture}}'>
+	<br>
     <input type='submit' value='Edit'>
   </form>
   <a href="{{url_for('showVocalband')}}"> Cancel </a>
